@@ -1,0 +1,6 @@
+{
+  "name": "AuraStudy",
+  "description": "AuraStudy – Hệ thống trợ lý học tập thông minh ứng dụng Generative AI và RAG (Aura AI) hỗ trợ sinh viên quản lý tài liệu, hỏi đáp, tóm tắt và tự động tạo quiz trắc nghiệm.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
