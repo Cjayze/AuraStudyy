@@ -21,7 +21,7 @@ services:
       - key: SUPABASE_PORT
         value: "5432"
       - key: SUPABASE_USER
-        value: postgres
+        sync: false
       - key: SUPABASE_DATABASE
         value: postgres
       - key: SUPABASE_URL
