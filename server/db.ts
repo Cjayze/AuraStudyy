@@ -3,6 +3,7 @@ import path from 'path';
 import bcrypt from 'bcryptjs';
 import { extractTextFromFile, splitIntoChunks, cleanText } from './parser';
 import { createPool } from '../src/db/index.ts';
+import { getDataDir, resolveUploadPath } from './storage';
 
 export interface User {
   id: string;
@@ -144,7 +145,7 @@ export interface DatabaseState {
   flashcard_progress: FlashcardProgress[];
 }
 
-const DATA_DIR = path.join(process.cwd(), 'data');
+const DATA_DIR = getDataDir();
 const DB_FILE = path.join(DATA_DIR, 'db.json');
 
 // Ensure data directory exists
@@ -541,7 +542,7 @@ export async function ensureDocumentCleanText(doc: Document): Promise<string> {
     doc.raw_text.length > 500000;
 
   if (needsRepair) {
-    const fullPath = path.join(process.cwd(), doc.file_path);
+    const fullPath = resolveUploadPath(doc.file_path);
     if (fs.existsSync(fullPath)) {
       try {
         const fileBuffer = fs.readFileSync(fullPath);

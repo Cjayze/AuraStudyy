@@ -2,6 +2,14 @@
 
 AuraStudy is an AI-assisted study workspace for managing course materials, asking questions about documents, creating quizzes and flashcards, and tracking study progress.
 
+## Deploy to Render
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Cjayze/AuraStudyy)
+
+The Render Blueprint in `render.yaml` configures the Express app, production build, health check, and persistent storage for local records and uploaded documents. Push this file to GitHub before using the button. Render will ask you to supply the Gemini and Supabase environment values in its dashboard; never put their secrets in `render.yaml`.
+
+This Blueprint uses a paid Render web service because free web services do not support persistent disks. Apply `drizzle/0001_flashcards.sql` to the configured PostgreSQL database before using Flashcard with PostgreSQL synchronization.
+
 ## Features
 
 - **Document library:** Upload and organize study documents. The Express service extracts text from PDF, DOCX, PPTX, and plain-text formats and stores document chunks for AI features.

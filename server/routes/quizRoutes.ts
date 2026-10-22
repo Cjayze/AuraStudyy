@@ -3,6 +3,7 @@ import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
 import { getDb, saveDb, ensureDocumentCleanText, Quiz, Question, QuizAttempt, QuizAnswer, LearningProgress } from '../db';
+import { getUploadsDir } from '../storage';
 import { authenticateToken, AuthRequest } from '../auth';
 import { generateQuizFromDocument, analyzeQuizWeaknesses } from '../quizGenerator';
 import { extractTextFromFile, splitIntoChunks } from '../parser';
@@ -125,7 +126,7 @@ quizRouter.post('/import', authenticateToken, handleImportUpload, async (req: Au
   const db = getDb();
   const now = new Date().toISOString();
   const docId = `doc_quiz_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`;
-  const uploadsDir = path.join(process.cwd(), 'uploads');
+  const uploadsDir = getUploadsDir();
   const filePath = `${docId}_${Date.now()}.${extension}`;
 
   try {

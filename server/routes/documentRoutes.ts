@@ -6,6 +6,7 @@ import { getDb, saveDb, Document, DocumentChunk, ensureDocumentCleanText } from 
 import { authenticateToken, AuthRequest } from '../auth';
 import { extractTextFromFile, splitIntoChunks } from '../parser';
 import { normalizeUploadedFilename } from '../filename';
+import { getUploadsDir, resolveUploadPath } from '../storage';
 
 export const documentRouter = Router();
 
@@ -164,7 +165,7 @@ documentRouter.post('/upload', authenticateToken, handleUploadFile, async (req: 
     const fileExt = path.extname(originalName).toLowerCase().replace('.', '') || 'bin';
 
     const docId = `doc_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`;
-    const uploadsDir = path.join(process.cwd(), 'uploads');
+    const uploadsDir = getUploadsDir();
     if (!fs.existsSync(uploadsDir)) {
       fs.mkdirSync(uploadsDir, { recursive: true });
     }
@@ -290,7 +291,7 @@ documentRouter.delete('/:id', authenticateToken, (req: AuthRequest, res: Respons
 
     // Remove physical file from disk if exists
     if (doc.file_path) {
-      const fullPath = path.join(process.cwd(), doc.file_path);
+      const fullPath = resolveUploadPath(doc.file_path);
       if (fs.existsSync(fullPath)) {
         try { fs.unlinkSync(fullPath); } catch (e) { /* ignore unlink error */ }
       }

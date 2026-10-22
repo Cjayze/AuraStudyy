@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
+import fs from 'fs';
 import path from 'path';
 import { createServer as createViteServer } from 'vite';
 import { authRouter } from './server/routes/authRoutes';
@@ -11,6 +12,7 @@ import { flashcardRouter } from './server/routes/flashcardRoutes';
 import { getDb } from './server/db';
 import { requireAuth, AuthRequest } from './src/middleware/auth.ts';
 import { getUsers } from './src/db/users.ts';
+import { getUploadsDir } from './server/storage';
 
 async function startServer() {
   const app = express();
@@ -82,7 +84,8 @@ async function startServer() {
   });
 
   // Static uploads directory
-  const uploadsDir = path.join(process.cwd(), 'uploads');
+  const uploadsDir = getUploadsDir();
+  if (!fs.existsSync(uploadsDir)) fs.mkdirSync(uploadsDir, { recursive: true });
   app.use('/uploads', express.static(uploadsDir));
 
   // Vite middleware for development vs static build for production
