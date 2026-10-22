@@ -1,181 +1,159 @@
-# AuraStudy
+﻿# AuraStudy
 
-AuraStudy is an AI-powered study workspace for organizing course materials, asking questions about uploaded documents, generating quizzes, and tracking learning activity.
-
-The repository contains a Node.js application that serves the React web app and its API. It also includes an optional, separate FastAPI backend under `backend/`.
+AuraStudy is an AI-assisted study workspace for managing course materials, asking questions about documents, creating quizzes and flashcards, and tracking study progress.
 
 ## Features
 
-- Upload and organize study documents, including PDF and DOCX files.
-- Ask Aura AI questions grounded in uploaded materials.
-- Generate quizzes, complete them, and review results.
-- Track study activity from a learning dashboard.
-- Sign in with email and password or Google through Supabase Auth.
+- **Document library:** Upload and organize study documents. The Express service extracts text from PDF, DOCX, PPTX, and plain-text formats and stores document chunks for AI features.
+- **Aura AI assistant:** Ask questions about your study materials and request document summaries.
+- **Quizzes:** Generate quizzes from library documents, take them, and review results.
+- **Flashcards:** Create card sets manually or generate a preview from a library document with Gemini. Edit cards before saving, study with a 3D flip interaction, mark cards as learning or known, and keep per-user review progress.
+- **Dashboard:** View learning activity and quiz results.
+- **Accounts:** Register or sign in with email and password. Google sign-in is available through Supabase Auth when configured.
 
 ## Technology
 
-- **Web:** React, TypeScript, Vite, Tailwind CSS
-- **Application server:** Node.js, Express, TypeScript
-- **Authentication:** Supabase Auth, Google OAuth, and application JWTs
-- **AI:** Google Gemini API
-- **Persistence:** Local JSON storage for application data, local file storage for uploads, and optional Supabase PostgreSQL for user profiles
-- **Optional service:** FastAPI, SQLAlchemy, and MySQL in `backend/`
+- React 19, TypeScript, Vite, and Tailwind CSS for the web app.
+- Express and TypeScript for the main application server and API.
+- JWT sessions for AuraStudy API requests; Supabase Auth can provide Google sign-in.
+- Google Gemini for document chat, summaries, quizzes, and AI flashcard generation.
+- The main Express application stores application records in `data/db.json` and uploaded files in `uploads/`. When PostgreSQL is configured, it also synchronizes records to PostgreSQL.
+- `backend/` is a separate, optional FastAPI service using MySQL. The root npm scripts do not start it.
 
 ## Requirements
 
-- Node.js 20 or later and npm
-- A Supabase project for authentication
-- A Google OAuth client configured in Supabase to enable Google sign-in
-- A Gemini API key for Gemini-powered features
-- Supabase PostgreSQL connection credentials when using database-backed user profiles
+- Node.js 20 or newer and npm.
+- PostgreSQL/Supabase connection settings for database-backed account registration and PostgreSQL synchronization.
+- A Gemini API key for AI generation and document assistance.
+- Supabase Auth and Google OAuth configuration only if you want Google sign-in.
 
-## Getting started
+## Run the main application
 
-### 1. Clone and install
+Clone this repository and install the dependencies:
 
 ```bash
-git clone https://github.com/Cjayze/AuraStudy.git
-cd AuraStudy
+git clone https://github.com/Cjayze/AuraStudyy.git
+cd AuraStudyy
 npm ci
 ```
 
-### 2. Configure environment variables
-
-Create a root `.env` file from the example:
+Copy the root environment template:
 
 ```powershell
-# Windows PowerShell
 Copy-Item .env.example .env
 ```
 
-```bash
-# macOS or Linux
-cp .env.example .env
-```
-
-Set the values that apply to your setup:
+On macOS or Linux, use `cp .env.example .env` instead. Set the values you need in `.env`:
 
 | Variable | Purpose |
 | --- | --- |
-| `GEMINI_API_KEY` | Gemini API key used by AI features. Some quiz generation can fall back to a local heuristic when this is not configured. |
-| `JWT_SECRET` | Secret used to sign application JWTs. Replace the example value with a long, random secret, especially in production. |
-| `SUPABASE_URL` | Supabase project URL used by the application server to validate Auth sessions. |
-| `SUPABASE_ANON_KEY` | Supabase publishable/anonymous key used by the application server. |
-| `VITE_SUPABASE_URL` | Supabase project URL exposed to the web client. Usually the same as `SUPABASE_URL`. |
-| `VITE_SUPABASE_ANON_KEY` | Supabase publishable/anonymous key exposed to the web client. Usually the same as `SUPABASE_ANON_KEY`. |
-| `SUPABASE_HOST` | PostgreSQL host, typically `db.<project-ref>.supabase.co`. |
+| `GEMINI_API_KEY` | Server-side key for Gemini features, including AI flashcard generation. |
+| `JWT_SECRET` | Secret used to sign AuraStudy API tokens. Use a long, random value outside local development. |
+| `SUPABASE_HOST` | PostgreSQL host. When set, provide the database password too. |
 | `SUPABASE_PORT` | PostgreSQL port; defaults to `5432`. |
 | `SUPABASE_USER` | PostgreSQL user; defaults to `postgres`. |
 | `SUPABASE_DATABASE` | PostgreSQL database; defaults to `postgres`. |
-| `SUPABASE_PASSWORD` | PostgreSQL database password. `SUPABASE_DB_PASSWORD` is also accepted by the application. |
-| `APP_URL` | Optional public URL of the deployed application. |
+| `SUPABASE_PASSWORD` | PostgreSQL password. `SUPABASE_DB_PASSWORD` is also accepted. |
+| `SUPABASE_URL` | Supabase project URL used to verify Google sign-in sessions. |
+| `SUPABASE_ANON_KEY` | Supabase publishable/anonymous key used by the server for Google sign-in. |
+| `VITE_SUPABASE_URL` | Supabase project URL exposed to the browser for OAuth. |
+| `VITE_SUPABASE_ANON_KEY` | Supabase publishable/anonymous key exposed to the browser for OAuth. |
 
-Do not commit `.env` or share secrets in issue reports. The `VITE_` variables are bundled into the browser app, so use only the Supabase publishable/anonymous key there. Never put a service-role key in a `VITE_` variable.
+The server also supports `SQL_HOST`, `SQL_USER`, `SQL_PASSWORD`, and `SQL_DB_NAME` as a PostgreSQL connection fallback. Drizzle migration tooling reads `SQL_HOST`, `SQL_DB_NAME`, `SQL_ADMIN_USER`, and `SQL_ADMIN_PASSWORD` from the root `.env`.
 
-### 3. Configure Supabase and Google sign-in
+Never put a database password, JWT secret, Gemini key, or Supabase service-role key in a `VITE_` variable. Do not commit `.env`; the repository ignores `.env*` while allowing `.env.example`.
 
-1. In the Supabase dashboard, enable **Authentication → Providers → Google** and provide your Google OAuth client ID and client secret.
-2. Add the Supabase callback URL shown in the provider settings to the authorized redirect URIs in Google Cloud. It usually has this form: `https://<project-ref>.supabase.co/auth/v1/callback`.
-3. In **Authentication → URL Configuration**, set the local site URL to `http://localhost:3000` and add `http://localhost:3000/**` to the allowed redirect URLs.
-4. Copy the project URL, publishable/anonymous key, and PostgreSQL connection details into `.env` as needed.
-
-### 4. Start the application
+Start the app in development mode:
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000). The API health endpoint is available at [http://localhost:3000/api/health](http://localhost:3000/api/health).
+Open <http://localhost:3000>. The API health endpoint is <http://localhost:3000/api/health>. The port can be overridden with `PORT`.
 
-## Build and quality checks
+## Flashcard database migration
 
-Run the TypeScript check:
+Flashcard data uses the application's existing local store and PostgreSQL connection. If you use PostgreSQL synchronization, apply the migration to the same database before using the flashcard feature:
+
+```bash
+psql -h <host> -U <user> -d <database> -f drizzle/0001_flashcards.sql
+```
+
+Replace the placeholders with your PostgreSQL connection details. The migration creates `flashcard_sets`, `flashcards`, and `flashcard_progress`, with ownership constraints and cascading cleanup. Do not run it against a production database without following your normal database change process.
+
+Without PostgreSQL, the Express application continues to use its local `data/db.json` store. Keep that file and `uploads/` backed up if you need to preserve local data; both are ignored by Git.
+
+## Build and checks
+
+Type-check the project:
 
 ```bash
 npm run lint
 ```
 
-Create a production build:
+Build the client and production server bundle:
 
 ```bash
 npm run build
 ```
 
-Start the production server:
+Run the production bundle:
 
 ```powershell
-# Windows PowerShell
 $env:NODE_ENV = "production"
 npm start
 ```
 
+On macOS or Linux:
+
 ```bash
-# macOS or Linux
 NODE_ENV=production npm start
 ```
 
-The Node.js server listens on port `3000`.
-
-## Data and uploads
-
-- The Node.js application creates its local JSON database under `data/` when it starts.
-- Uploaded documents are stored under `uploads/` and served from `/uploads`.
-- Local data and uploaded files are machine-specific and are not included in Git. Back them up separately if you need to keep them.
-- Configure Supabase PostgreSQL credentials to enable database-backed user profile operations. The local JSON store is still used for application data.
-
 ## Optional FastAPI backend
 
-The `backend/` directory contains a separate Python service. The root npm commands do not start it. It requires Python 3.10 or later and a MySQL database created in advance.
+`backend/` is a separate service and is not required by the React/Express application. It requires Python 3.10 or newer and a MySQL database. From the repository root:
 
 ```bash
 cd backend
 python -m venv .venv
 ```
 
-Activate the virtual environment:
+Activate the virtual environment, then install dependencies:
 
 ```powershell
-# Windows PowerShell
 .\.venv\Scripts\Activate.ps1
-```
-
-```bash
-# macOS or Linux
-source .venv/bin/activate
-```
-
-Install dependencies and configure its environment:
-
-```bash
 python -m pip install -r requirements.txt
+Copy-Item .env.example .env
 ```
 
-Copy `backend/.env.example` to `backend/.env`, then set the MySQL connection, `SECRET_KEY`, and `GEMINI_API_KEY` values. Start the service with:
+On macOS or Linux, activate with `source .venv/bin/activate` and copy the template with `cp .env.example .env`. Configure the MySQL settings and optional Gemini key in `backend/.env`, then run:
 
 ```bash
 uvicorn app.main:app --reload
 ```
 
-The API documentation is at [http://localhost:8000/docs](http://localhost:8000/docs), and its health endpoint is at [http://localhost:8000/api/health](http://localhost:8000/api/health).
+The FastAPI docs are at <http://localhost:8000/docs>; its health endpoint is <http://localhost:8000/api/health>.
 
 ## Troubleshooting
 
-- **Port 3000 is already in use:** stop the other process using the port before starting AuraStudy.
-- **AI features are unavailable:** check `GEMINI_API_KEY` in the root `.env`, then restart the Node.js server.
-- **Google sign-in fails:** verify the Google provider credentials, Supabase callback URI, and allowed redirect URLs.
-- **Database connection fails:** check the Supabase database host and password, network access, and database connection settings.
-- **The web app reports missing Supabase configuration:** check `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`, then restart the development server.
+- **Port already in use:** Set `PORT` to another free port before starting the Express app.
+- **AI generation is unavailable:** Check `GEMINI_API_KEY` in the root `.env`, then restart the app.
+- **Google sign-in is unavailable:** Configure the Supabase Google provider, OAuth redirect URLs, and the `SUPABASE_*` and `VITE_SUPABASE_*` variables.
+- **PostgreSQL synchronization fails for flashcards:** Apply `drizzle/0001_flashcards.sql` to the configured database and verify the connection settings.
+- **Document text is empty or incomplete:** Scanned PDFs may not contain extractable text; use a text-based source file when possible.
 
 ## Project structure
 
 ```text
 .
-├── backend/              # Optional FastAPI service
-├── public/               # Static web assets
-├── server/               # Express API routes and application logic
-├── src/                  # React app, client services, and database helpers
-├── data/                 # Local JSON application data (generated at runtime)
-├── uploads/              # Uploaded files (generated at runtime)
-├── server.ts             # Node.js and Vite application entry point
-└── package.json          # Node.js scripts and dependencies
+├── backend/              # Optional FastAPI/MySQL service
+├── data/                 # Local JSON store (created at runtime)
+├── drizzle/              # PostgreSQL SQL migrations
+├── public/               # Static assets
+├── server/               # Express routes, parsers, and AI services
+├── src/                  # React app, API client, and Drizzle schema
+├── uploads/              # Uploaded documents (created at runtime)
+├── server.ts             # Express/Vite application entry point
+└── package.json          # npm scripts and dependencies
 ```
