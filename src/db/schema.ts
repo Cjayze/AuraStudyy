@@ -1,4 +1,4 @@
-import { pgTable, text, integer, boolean, timestamp, jsonb } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, boolean, timestamp, jsonb, uniqueIndex, index } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 // Users table supporting Supabase Auth UID and traditional user IDs
@@ -103,6 +103,31 @@ export const quizAnswers = pgTable('quiz_answers', {
   selectedOption: text('selected_option').notNull(),
   isCorrect: boolean('is_correct').default(false)
 });
+
+export const flashcardSets = pgTable('flashcard_sets', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  documentId: text('document_id').references(() => documents.id, { onDelete: 'set null' }),
+  title: text('title').notNull(), subject: text('subject').notNull().default(''),
+  description: text('description'), creationMethod: text('creation_method').notNull().default('manual'),
+  createdAt: timestamp('created_at').defaultNow().notNull(), updatedAt: timestamp('updated_at').defaultNow().notNull()
+}, table => ({ userIndex: index('flashcard_sets_user_id_idx').on(table.userId) }));
+
+export const flashcards = pgTable('flashcards', {
+  id: text('id').primaryKey(),
+  setId: text('set_id').notNull().references(() => flashcardSets.id, { onDelete: 'cascade' }),
+  frontText: text('front_text').notNull(), backText: text('back_text').notNull(),
+  position: integer('position').notNull().default(0),
+  createdAt: timestamp('created_at').defaultNow().notNull(), updatedAt: timestamp('updated_at').defaultNow().notNull()
+}, table => ({ setIndex: index('flashcards_set_id_idx').on(table.setId) }));
+
+export const flashcardProgress = pgTable('flashcard_progress', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull().references(() => users.id, { onDelete: 'cascade' }),
+  flashcardId: text('flashcard_id').notNull().references(() => flashcards.id, { onDelete: 'cascade' }),
+  status: text('status').notNull().default('new'), reviewCount: integer('review_count').notNull().default(0),
+  lastReviewedAt: timestamp('last_reviewed_at'), updatedAt: timestamp('updated_at').defaultNow().notNull()
+}, table => ({ ownerCardUnique: uniqueIndex('flashcard_progress_owner_card_idx').on(table.userId, table.flashcardId) }));
 
 // Learning progress
 export const learningProgress = pgTable('learning_progress', {

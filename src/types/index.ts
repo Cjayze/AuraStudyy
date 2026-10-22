@@ -22,6 +22,9 @@ export interface DocumentItem {
   summary?: string;
 }
 
+export interface FlashcardItem { id:string; set_id:string; front_text:string; back_text:string; position:number; progress?:{status:'new'|'learning'|'known';review_count:number;last_reviewed_at?:string}|null }
+export interface FlashcardSetItem { id:string; user_id:string; document_id?:string; title:string; subject:string; description?:string; creation_method:'manual'|'ai'; created_at:string; updated_at:string; card_count:number; known_count:number; cards?:FlashcardItem[] }
+
 export interface DashboardMetrics {
   total_documents: number;
   total_questions_asked: number;

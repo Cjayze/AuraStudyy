@@ -7,13 +7,14 @@ import { DashboardView } from './components/DashboardView';
 import { DocumentsView } from './components/DocumentsView';
 import { ChatView } from './components/ChatView';
 import { QuizView } from './components/QuizView';
+import { FlashcardView } from './components/FlashcardView';
 import { AuthModal } from './components/AuthModal';
 import { LandingPage } from './components/LandingPage';
 import { supabase } from './lib/supabase';
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'documents' | 'chat' | 'quizzes'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'documents' | 'chat' | 'quizzes' | 'flashcards'>('dashboard');
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const oauthCallbackHandled = useRef(false);
 
@@ -229,6 +230,8 @@ export default function App() {
               onClearPreSelectedDoc={() => setPreSelectedDocForQuiz(null)}
             />
           )}
+
+          {activeTab === 'flashcards' && <FlashcardView documents={documents} />}
         </main>
       </div>
 

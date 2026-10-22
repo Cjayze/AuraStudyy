@@ -5,7 +5,8 @@ import {
   QuizItem,
   QuizDetail,
   QuizSubmitResult,
-  DocumentSummary
+  DocumentSummary,
+  FlashcardSetItem
 } from '../types';
 
 const BASE_URL = '/api';
@@ -306,5 +307,13 @@ export const api = {
       headers: { ...getAuthHeader() }
     });
     return handleResponse(res);
-  }
+  },
+
+  getFlashcardSets: async (): Promise<FlashcardSetItem[]> => handleResponse(await fetch(`${BASE_URL}/flashcards`, { headers:getAuthHeader() })),
+  getFlashcardSet: async (id:string): Promise<FlashcardSetItem> => handleResponse(await fetch(`${BASE_URL}/flashcards/${id}`, { headers:getAuthHeader() })),
+  generateFlashcards: async (document_id:string): Promise<{cards:Array<{front_text:string;back_text:string}>;title:string;subject:string;document_id:string}> => handleResponse(await fetch(`${BASE_URL}/flashcards/generate`, {method:'POST',headers:{'Content-Type':'application/json',...getAuthHeader()},body:JSON.stringify({document_id})})),
+  createFlashcardSet: async (payload:{title:string;subject:string;description:string;document_id?:string;creation_method:'manual'|'ai';cards:Array<{front_text:string;back_text:string}>}): Promise<FlashcardSetItem> => handleResponse(await fetch(`${BASE_URL}/flashcards`, {method:'POST',headers:{'Content-Type':'application/json',...getAuthHeader()},body:JSON.stringify(payload)})),
+  updateFlashcardSet: async (id:string,payload:{title:string;subject:string;description:string;cards:Array<{front_text:string;back_text:string}>}): Promise<FlashcardSetItem> => handleResponse(await fetch(`${BASE_URL}/flashcards/${id}`, {method:'PUT',headers:{'Content-Type':'application/json',...getAuthHeader()},body:JSON.stringify(payload)})),
+  deleteFlashcardSet: async (id:string): Promise<{message:string}> => handleResponse(await fetch(`${BASE_URL}/flashcards/${id}`,{method:'DELETE',headers:getAuthHeader()})),
+  reviewFlashcard: async (setId:string,cardId:string,status:'known'|'learning') => handleResponse(await fetch(`${BASE_URL}/flashcards/${setId}/cards/${cardId}/progress`,{method:'PUT',headers:{'Content-Type':'application/json',...getAuthHeader()},body:JSON.stringify({status})}))
 };

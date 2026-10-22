@@ -7,13 +7,14 @@ import { documentRouter } from './server/routes/documentRoutes';
 import { dashboardRouter } from './server/routes/dashboardRoutes';
 import { chatRouter } from './server/routes/chatRoutes';
 import { quizRouter } from './server/routes/quizRoutes';
+import { flashcardRouter } from './server/routes/flashcardRoutes';
 import { getDb } from './server/db';
 import { requireAuth, AuthRequest } from './src/middleware/auth.ts';
 import { getUsers } from './src/db/users.ts';
 
 async function startServer() {
   const app = express();
-  const PORT = 3000;
+  const PORT = Number(process.env.PORT) || 3000;
 
   // Initialize DB in memory/disk
   getDb();
@@ -46,6 +47,7 @@ async function startServer() {
   app.use('/api/dashboard', dashboardRouter);
   app.use('/api/chat', chatRouter);
   app.use('/api/quizzes', quizRouter);
+  app.use('/api/flashcards', flashcardRouter);
 
   // Cloud SQL Database Users API endpoint
   app.get('/api/users', requireAuth, async (req: AuthRequest, res) => {
