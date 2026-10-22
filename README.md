@@ -6,9 +6,9 @@ AuraStudy is an AI-assisted study workspace for managing course materials, askin
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Cjayze/AuraStudyy)
 
-The Render Blueprint in `render.yaml` configures the Express app, production build, health check, and persistent storage for local records and uploaded documents. Push this file to GitHub before using the button. Render will ask you to supply the Gemini and Supabase environment values in its dashboard; never put their secrets in `render.yaml`.
+The Render Blueprint in `render.yaml` configures the Express app as a free web service with a production build and health check. Push this file to GitHub before using the button. Render will ask you to supply the Gemini and Supabase environment values in its dashboard; never put their secrets in `render.yaml`.
 
-This Blueprint uses a paid Render web service because free web services do not support persistent disks. Apply `drizzle/0001_flashcards.sql` to the configured PostgreSQL database before using Flashcard with PostgreSQL synchronization.
+This free setup is intended for demos. The service sleeps after 15 minutes without traffic, and its local JSON database and uploaded files can be lost when it restarts or redeploys. Apply `drizzle/0001_flashcards.sql` to the configured PostgreSQL database before using Flashcard with PostgreSQL synchronization; this migration does not make the local JSON store or uploads persistent.
 
 ## Features
 
