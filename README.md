@@ -1,8 +1,9 @@
-﻿# AuraStudy
+<img width="202" height="82" alt="image" src="https://github.com/user-attachments/assets/ee7c4e92-58d9-4372-8a6f-62a1fc333ba1" />﻿# AuraStudy
 
 AuraStudy is an AI-assisted study workspace for managing course materials, asking questions about documents, creating quizzes and flashcards, and tracking study progress.
 
 ## Deploy to Render
+Link Deploy: https://aurastudy-10sm.onrender.com/
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/Cjayze/AuraStudyy)
 
