@@ -140,7 +140,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onSuccess
         {/* Header */}
         <div className="flex items-center space-x-3 mb-5 pr-8">
           <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold shadow-md shadow-blue-200 shrink-0">
-            <BookOpen className="w-5 h-5" />
+            <img src="/assets/Logo_light.png" alt="" aria-hidden="true" className="h-8 w-8 rounded object-cover" />
           </div>
           <div>
             <h2 className="text-xl font-bold text-slate-800 flex items-center gap-1.5">

@@ -11,12 +11,24 @@ import { FlashcardView } from './components/FlashcardView';
 import { AuthModal } from './components/AuthModal';
 import { LandingPage } from './components/LandingPage';
 import { supabase } from './lib/supabase';
+import { applyLanguage, type Language } from './i18n';
 
 export default function App() {
   const [user, setUser] = useState<User | null>(null);
   const [activeTab, setActiveTab] = useState<'dashboard' | 'documents' | 'chat' | 'quizzes' | 'flashcards'>('dashboard');
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [language, setLanguage] = useState<Language>(() => localStorage.getItem('aurastudy_language') === 'en' ? 'en' : 'vi');
   const oauthCallbackHandled = useRef(false);
+
+  useEffect(() => {
+    localStorage.setItem('aurastudy_language', language);
+    return applyLanguage(language);
+  }, [language]);
+
+  const handleProfileUpdated = (updatedUser: User) => {
+    setUser(updatedUser);
+    localStorage.setItem('aurastudy_user', JSON.stringify(updatedUser));
+  };
 
   // Core data states
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
@@ -174,6 +186,9 @@ export default function App() {
         onOpenAuth={() => setIsAuthOpen(true)}
         onLogout={handleLogout}
         activeTab={activeTab}
+        language={language}
+        onLanguageChange={setLanguage}
+        onProfileUpdated={handleProfileUpdated}
       />
 
       {/* Main Layout Body */}
@@ -184,6 +199,7 @@ export default function App() {
           setActiveTab={setActiveTab}
           documentCount={documents.length}
           quizCount={quizzes.length}
+          language={language}
         />
 
         {/* View Contents Container */}
@@ -196,6 +212,7 @@ export default function App() {
               onSelectDocumentForChat={handleSelectDocForChat}
               onSelectDocumentForQuiz={handleSelectDocForQuiz}
               onRefresh={fetchData}
+              language={language}
             />
           )}
 

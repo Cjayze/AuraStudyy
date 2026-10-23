@@ -1,4 +1,5 @@
 import React from 'react';
+import type { Language } from '../i18n';
 import { LayoutDashboard, FileText, MessageSquareQuote, CheckSquare, Sparkles, FolderSync, Layers3 } from 'lucide-react';
 
 type AppTab = 'dashboard' | 'documents' | 'chat' | 'quizzes' | 'flashcards';
@@ -8,14 +9,17 @@ interface SidebarProps {
   setActiveTab: (tab: AppTab) => void;
   documentCount?: number;
   quizCount?: number;
+  language: Language;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
   activeTab,
   setActiveTab,
   documentCount = 0,
-  quizCount = 0
+  quizCount = 0,
+  language
 }) => {
+  const en = language === 'en';
   const navItems = [
     {
       id: 'dashboard',
@@ -66,7 +70,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 }`}
               >
                 <div className="flex items-center gap-2.5">
-                  <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-500'}`} />
+                  {isActive ? (
+                    <img src="/assets/Logo_light.png" alt="" aria-hidden="true" className="h-5 w-5 shrink-0 rounded object-cover" />
+                  ) : (
+                    <Icon className="w-4 h-4 text-slate-500" />
+                  )}
                   <span>{item.label}</span>
                 </div>
 
@@ -96,7 +104,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <span>Aura Copilot</span>
         </div>
         <p className="text-[11px] text-slate-600 leading-relaxed mb-2.5">
-          Tải lên tài liệu PDF hoặc TXT để tra cứu câu hỏi chuẩn xác và sinh bộ đề thi trắc nghiệm trong 5 giây.
+          {en ? 'Upload a PDF or TXT document to get accurate answers and generate a multiple-choice quiz in seconds.' : 'Tải lên tài liệu PDF hoặc TXT để tra cứu câu hỏi chuẩn xác và sinh bộ đề thi trắc nghiệm trong 5 giây.'}
         </p>
         <button
           id="sidebar-quick-upload-btn"
@@ -104,7 +112,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           className="w-full py-1.5 px-2.5 bg-white hover:bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium rounded-lg shadow-2xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
         >
           <FolderSync className="w-3.5 h-3.5" />
-          <span>Quản lý tài liệu</span>
+          <span>{en ? 'Manage documents' : 'Quản lý tài liệu'}</span>
         </button>
       </div>
     </aside>

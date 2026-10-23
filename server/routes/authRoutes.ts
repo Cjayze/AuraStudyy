@@ -1,10 +1,47 @@
 import { Router, Response } from 'express';
+import multer from 'multer';
 import { getDb, saveDb, User } from '../db';
 import { generateToken, hashPassword, comparePassword, authenticateToken, AuthRequest } from '../auth';
 import { findUserByEmail, createUserInSupabase, getOrCreateUser } from '../../src/db/users.ts';
 import { createPool } from '../../src/db/index.ts';
 
 export const authRouter = Router();
+
+const avatarUpload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (_req, file, callback) => {
+    if (!['image/png', 'image/jpeg', 'image/webp', 'image/gif'].includes(file.mimetype)) {
+      callback(new Error('Avatar must be a PNG, JPG, WEBP, or GIF image.'));
+      return;
+    }
+    callback(null, true);
+  }
+});
+
+authRouter.patch('/me', authenticateToken, (req: AuthRequest, res: Response) => {
+  const user = getDb().users.find(item => item.id === req.user?.id);
+  if (!user) return res.status(404).json({ status: 'error', message: 'User profile was not found.' });
+
+  const name = typeof req.body?.name === 'string' ? req.body.name.trim() : user.full_name;
+  const avatarUrl = typeof req.body?.avatar_url === 'string' ? req.body.avatar_url.trim() : user.avatar_url || '';
+  if (!name || name.length > 100) return res.status(400).json({ status: 'error', message: 'Name must be between 1 and 100 characters.' });
+  if (avatarUrl.length > 1_500_000) return res.status(400).json({ status: 'error', message: 'Avatar image is too large.' });
+
+  user.full_name = name;
+  user.avatar_url = avatarUrl;
+  saveDb();
+  return res.json({ status: 'success', data: { id: user.id, name: user.full_name, full_name: user.full_name, email: user.email, role: user.role, school: user.school || '', avatar_url: user.avatar_url, created_at: user.created_at } });
+});
+
+authRouter.post('/me/avatar', authenticateToken, avatarUpload.single('avatar'), (req: AuthRequest, res: Response) => {
+  const user = getDb().users.find(item => item.id === req.user?.id);
+  if (!user) return res.status(404).json({ status: 'error', message: 'User profile was not found.' });
+  if (!req.file) return res.status(400).json({ status: 'error', message: 'Choose an image file to upload.' });
+  user.avatar_url = `data:${req.file.mimetype};base64,${req.file.buffer.toString('base64')}`;
+  saveDb();
+  return res.json({ status: 'success', data: { avatar_url: user.avatar_url } });
+});
 
 // POST /api/auth/supabase-login
 // Verify the Supabase Auth access token server-side, then issue AuraStudy's API JWT.

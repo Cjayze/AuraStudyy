@@ -317,7 +317,7 @@ export const ChatView: React.FC<ChatViewProps> = ({
         {loading && (
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0">
-              <Bot className="w-4 h-4" />
+              <img src="/assets/Logo_light.png" alt="" aria-hidden="true" className="h-6 w-6 rounded object-cover" />
             </div>
             <div className="p-3.5 bg-slate-50 border border-slate-200/70 rounded-2xl text-xs text-slate-500 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-blue-600 animate-ping"></span>

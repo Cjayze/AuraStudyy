@@ -450,7 +450,8 @@ export async function syncToPostgres(): Promise<void> {
            email = EXCLUDED.email,
            password_hash = COALESCE(EXCLUDED.password_hash, users.password_hash),
            full_name = EXCLUDED.full_name,
-           school = EXCLUDED.school;`,
+           school = EXCLUDED.school,
+           avatar_url = EXCLUDED.avatar_url;`,
         [u.id, u.id, u.email, u.password_hash || '', u.full_name || u.email, u.school || '', u.role || 'student', u.avatar_url || '', u.is_active ?? true, u.created_at || new Date().toISOString()]
       );
     }

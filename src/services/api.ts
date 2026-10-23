@@ -108,6 +108,26 @@ export const api = {
     return handleResponse(res);
   },
 
+  updateProfile: async (payload: { name: string; avatar_url?: string }): Promise<User> => {
+    const res = await fetch(`${BASE_URL}/auth/me`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', ...getAuthHeader() },
+      body: JSON.stringify(payload)
+    });
+    return handleResponse(res);
+  },
+
+  uploadAvatar: async (file: File): Promise<{ avatar_url: string }> => {
+    const body = new FormData();
+    body.append('avatar', file);
+    const res = await fetch(`${BASE_URL}/auth/me/avatar`, {
+      method: 'POST',
+      headers: getAuthHeader(),
+      body
+    });
+    return handleResponse(res);
+  },
+
   // Dashboard
   getDashboardStats: async (): Promise<DashboardData> => {
     const res = await fetch(`${BASE_URL}/dashboard`, {
