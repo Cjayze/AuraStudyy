@@ -1,4 +1,4 @@
-<img width="202" height="82" alt="image" src="https://github.com/user-attachments/assets/ee7c4e92-58d9-4372-8a6f-62a1fc333ba1" />﻿# AuraStudy
+# AuraStudy
 
 AuraStudy is an AI-assisted study workspace for managing course materials, asking questions about documents, creating quizzes and flashcards, and tracking study progress.
 
