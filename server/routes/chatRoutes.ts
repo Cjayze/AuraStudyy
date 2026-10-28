@@ -20,6 +20,18 @@ chatRouter.post('/ask', authenticateToken, async (req: AuthRequest, res: Respons
 
     const db = getDb();
 
+    // Resolve and authorize the requested document before creating sessions or
+    // recording messages, so another user's document ID reveals nothing.
+    if (document_id) {
+      const doc = db.documents.find(d => d.id === document_id && d.user_id === user.id);
+      if (!doc) {
+        return res.status(404).json({
+          status: 'error',
+          message: 'Tài liệu không tồn tại.'
+        });
+      }
+    }
+
     // Find or create session
     let session: ChatSession | undefined;
     if (session_id) {
@@ -32,7 +44,7 @@ chatRouter.post('/ask', authenticateToken, async (req: AuthRequest, res: Respons
       if (question.length > 45) title += '...';
 
       if (document_id) {
-        const doc = db.documents.find(d => d.id === document_id);
+        const doc = db.documents.find(d => d.id === document_id && d.user_id === user.id);
         if (doc) {
           title = `${doc.title.slice(0, 30)} - Hỏi đáp`;
         }
