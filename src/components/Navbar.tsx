@@ -25,7 +25,7 @@ export const Navbar: React.FC<NavbarProps> = ({ user, onOpenAuth, onLogout, lang
     </div>
     <div className="flex items-center space-x-3">
       {user ? <ProfileSettings user={user} language={language} onLanguageChange={onLanguageChange} onProfileUpdated={onProfileUpdated} onLogout={onLogout} /> : (
-        <button id="open-login-btn" onClick={onOpenAuth} className="flex cursor-pointer items-center gap-1.5 rounded-xl bg-orange-500 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm shadow-orange-100 transition-all hover:bg-orange-600">
+        <button id="open-login-btn" onClick={onOpenAuth} className="flex cursor-pointer items-center gap-1.5 rounded-xl bg-blue-600 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm shadow-blue-100 transition-all hover:bg-blue-700">
           <LogIn className="h-3.5 w-3.5"/><span>{language === 'en' ? 'Log in' : 'Đăng nhập'}</span>
         </button>
       )}

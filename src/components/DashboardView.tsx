@@ -64,22 +64,22 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   return (
     <div id="dashboard-view-content" className="p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto space-y-6">
       {/* Welcome Banner */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-900 via-blue-800 to-slate-900 text-white p-6 sm:p-8 shadow-xl">
+      <div className="relative overflow-hidden rounded-2xl border border-white/90 bg-white/85 p-6 text-slate-900 shadow-xl shadow-blue-100/60 backdrop-blur-sm sm:p-8">
         <div className="relative z-10 max-w-2xl">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-500/30 text-blue-200 border border-blue-400/30 mb-3">
-            <img src="/assets/Logo_light.png" alt="" aria-hidden="true" className="h-5 w-5 rounded object-cover" /> Hệ Thống Trợ Lý Học Tập AuraStudy
+          <span className="mb-3 inline-flex items-center gap-1.5 rounded-full border border-blue-100 bg-white/90 px-2.5 py-1 text-xs font-medium text-slate-700 shadow-sm">
+            <img src="/assets/aurastudy-logo.png" alt="" aria-hidden="true" className="h-5 w-5 rounded object-cover" /> Hệ Thống Trợ Lý Học Tập AuraStudy
           </span>
-          <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white mb-2">
+          <h1 className="mb-2 text-2xl font-extrabold tracking-tight text-slate-950 sm:text-3xl">
             Học thông minh hơn cùng Generative AI & RAG
           </h1>
-          <p className="text-sm text-blue-100/90 leading-relaxed mb-6">
+          <p className="mb-6 text-sm leading-relaxed text-slate-600">
             Tải tài liệu môn học, trò chuyện trực tiếp với trợ lý thông minh để tóm tắt bài giảng và tự động sinh đề trắc nghiệm chuẩn kiến thức.
           </p>
           <div className="flex flex-wrap gap-3">
             <button
               id="dashboard-upload-doc-btn"
               onClick={() => onNavigate('documents')}
-              className="px-4 py-2 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white font-semibold text-xs sm:text-sm rounded-xl shadow-md shadow-orange-950/20 transition-all flex items-center gap-2 cursor-pointer"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold text-xs sm:text-sm rounded-xl shadow-md shadow-blue-950/20 transition-all flex items-center gap-2 cursor-pointer"
             >
               <UploadCloud className="w-4 h-4" />
               <span>Tải lên tài liệu mới</span>
@@ -87,9 +87,9 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             <button
               id="dashboard-start-chat-btn"
               onClick={() => onNavigate('chat')}
-              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-semibold text-xs sm:text-sm rounded-xl border border-white/20 transition-all flex items-center gap-2 cursor-pointer"
+              className="flex cursor-pointer items-center gap-2 rounded-xl border border-blue-200 bg-white/90 px-4 py-2 text-xs font-semibold text-blue-700 transition-all hover:bg-blue-50 sm:text-sm"
             >
-              <img src="/assets/Logo_light.png" alt="" aria-hidden="true" className="h-5 w-5 rounded object-cover" />
+              <img src="/assets/aurastudy-logo.png" alt="" aria-hidden="true" className="h-6 w-6 rounded-md bg-white p-0.5 object-contain" />
               <span>Hỏi đáp Aura AI</span>
             </button>
           </div>
@@ -189,7 +189,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 <p className="text-xs text-slate-400 mb-4">Tải tài liệu PDF hoặc TXT đầu tiên để bắt đầu học</p>
                 <button
                   onClick={() => onNavigate('documents')}
-                  className="px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-xs font-semibold cursor-pointer shadow-xs"
+                  className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-semibold cursor-pointer shadow-xs"
                 >
                   Tải tài liệu ngay
                 </button>
@@ -235,7 +235,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                       <button
                         id={`quiz-for-doc-${doc.id}`}
                         onClick={() => onSelectDocumentForQuiz(doc)}
-                        className="px-2.5 py-1 text-xs font-semibold text-orange-700 bg-orange-50 hover:bg-orange-100 border border-orange-200/60 rounded-lg transition-colors flex items-center gap-1 cursor-pointer"
+                        className="px-2.5 py-1 text-xs font-semibold text-blue-700 bg-blue-50 hover:bg-blue-100 border border-blue-200/60 rounded-lg transition-colors flex items-center gap-1 cursor-pointer"
                       >
                         <span>Tạo Quiz</span>
                       </button>
@@ -309,7 +309,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 <p className="text-xs text-slate-500 mb-3">Bạn chưa hoàn thành bài thi nào</p>
                 <button
                   onClick={() => onNavigate('quizzes')}
-                  className="px-3 py-1.5 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white rounded-lg text-xs font-semibold cursor-pointer shadow-xs"
+                  className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white rounded-lg text-xs font-semibold cursor-pointer shadow-xs"
                 >
                   {en ? 'Take a quiz' : 'Làm đề trắc nghiệm'}
                 </button>
@@ -360,7 +360,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </p>
             <button
               onClick={() => onNavigate('quizzes')}
-              className="w-full py-2 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white rounded-xl text-xs font-semibold shadow-xs transition-colors cursor-pointer"
+              className="w-full py-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white rounded-xl text-xs font-semibold shadow-xs transition-colors cursor-pointer"
             >
               {en ? 'Create a quiz now' : 'Tạo bài kiểm tra ngay'}
             </button>

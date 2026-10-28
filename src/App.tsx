@@ -155,8 +155,8 @@ export default function App() {
 
   if (loading && !user) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#fbfbff]">
-        <div className="h-9 w-9 animate-spin rounded-full border-4 border-violet-200 border-t-violet-600" />
+      <div className="flex min-h-screen items-center justify-center bg-[#f5f7fc]">
+        <div className="h-9 w-9 animate-spin rounded-full border-4 border-blue-200 border-t-blue-600" />
       </div>
     );
   }
@@ -179,7 +179,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100/60 font-sans text-slate-900 flex flex-col selection:bg-blue-500 selection:text-white">
+    <div className="min-h-screen bg-[#f5f7fc] font-sans text-slate-900 flex flex-col selection:bg-blue-500 selection:text-white">
       {/* Top Navbar */}
       <Navbar
         user={user}

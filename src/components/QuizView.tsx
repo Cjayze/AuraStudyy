@@ -282,7 +282,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
               id="submit-exam-btn"
               onClick={handleSubmitQuiz}
               disabled={submitting}
-              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-50 text-white font-semibold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1.5 cursor-pointer"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-50 text-white font-semibold text-xs rounded-xl shadow-sm transition-all flex items-center gap-1.5 cursor-pointer"
             >
               {submitting ? (
                 <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
@@ -399,7 +399,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                   id="submit-exam-bottom-btn"
                   onClick={handleSubmitQuiz}
                   disabled={submitting}
-                  className="px-5 py-2 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 disabled:opacity-50 text-white rounded-xl shadow-sm hover:shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
+                  className="px-5 py-2 text-xs font-bold bg-blue-600 hover:bg-blue-700 active:bg-blue-800 disabled:opacity-50 text-white rounded-xl shadow-sm hover:shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
                 >
                   {submitting ? (
                     <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
@@ -639,7 +639,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
             setGenError(null);
             setIsGeneratorOpen(true);
           }}
-          className="px-4 py-2.5 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-md shadow-orange-100 flex items-center justify-center gap-2 transition-all cursor-pointer"
+          className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-md shadow-blue-100 flex items-center justify-center gap-2 transition-all cursor-pointer"
         >
           <Sparkles className="w-4 h-4 text-amber-200" />
           <span>Tạo đề thi</span>
@@ -666,7 +666,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
               setGenError(null);
               setIsGeneratorOpen(true);
             }}
-            className="px-4 py-2 bg-orange-50 text-orange-600 hover:bg-orange-100 border border-orange-200/60 rounded-xl text-xs font-semibold cursor-pointer"
+            className="px-4 py-2 bg-blue-50 text-blue-600 hover:bg-blue-100 border border-blue-200/60 rounded-xl text-xs font-semibold cursor-pointer"
           >
             Tạo đề thi đầu tiên
           </button>
@@ -727,7 +727,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                   id={`start-quiz-btn-${q.id}`}
                   onClick={() => handleStartQuiz(q.id)}
                   disabled={examLoading}
-                  className="w-full py-2 px-3 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 transition-colors shadow-2xs shadow-orange-100 cursor-pointer"
+                  className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 transition-colors shadow-2xs shadow-blue-100 cursor-pointer"
                 >
                   <Play className="w-3.5 h-3.5 fill-current" />
                   <span>Bắt đầu làm bài</span>
@@ -789,10 +789,10 @@ export const QuizView: React.FC<QuizViewProps> = ({
                 <button
                   type="button"
                   onClick={() => { setGeneratorMode('file'); setGenError(null); }}
-                  className="w-full rounded-2xl border border-violet-200 bg-violet-50/60 p-4 text-left transition hover:border-violet-400 hover:bg-violet-50"
+                  className="w-full rounded-2xl border border-blue-200 bg-blue-50/70 p-4 text-left transition hover:border-blue-400 hover:bg-blue-50"
                 >
                   <span className="flex items-center gap-3">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-violet-600 text-white"><Upload className="h-5 w-5" /></span>
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white"><Upload className="h-5 w-5" /></span>
                     <span>
                       <span className="block text-sm font-bold text-slate-900">{sourceDocumentForQuiz ? 'Tạo quiz từ file đã tải lên' : 'Tạo quiz từ file câu hỏi trắc nghiệm'}</span>
                       <span className="mt-1 block text-xs leading-5 text-slate-600">
@@ -893,7 +893,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                   id="submit-gen-quiz-btn"
                   type="submit"
                   disabled={genLoading}
-                  className="px-4 py-2 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-xs font-semibold rounded-xl shadow-md shadow-orange-100 transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-semibold rounded-xl shadow-md shadow-blue-100 transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                 >
                   {genLoading ? (
                     <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>

@@ -276,7 +276,7 @@ export const DocumentsView: React.FC<DocumentsViewProps> = ({
             setUploadError(null);
             setIsUploadOpen(true);
           }}
-          className="px-4 py-2.5 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-md shadow-orange-100 flex items-center justify-center gap-2 transition-all cursor-pointer"
+          className="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-md shadow-blue-100 flex items-center justify-center gap-2 transition-all cursor-pointer"
         >
           <UploadCloud className="w-4 h-4" />
           <span>Tải tài liệu mới</span>
@@ -332,7 +332,7 @@ export const DocumentsView: React.FC<DocumentsViewProps> = ({
           </p>
           <button
             onClick={() => setIsUploadOpen(true)}
-            className="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white rounded-xl text-xs font-semibold cursor-pointer shadow-xs"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold cursor-pointer shadow-xs"
           >
             Tải lên tài liệu ngay
           </button>
@@ -416,7 +416,7 @@ export const DocumentsView: React.FC<DocumentsViewProps> = ({
                 <button
                   id={`quiz-action-btn-${doc.id}`}
                   onClick={() => onSelectDocumentForQuiz(doc)}
-                  className="w-full py-2 px-2 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 transition-colors shadow-2xs shadow-orange-100 cursor-pointer"
+                  className="w-full py-2 px-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 transition-colors shadow-2xs shadow-blue-100 cursor-pointer"
                 >
                   <Layers className="w-3.5 h-3.5" />
                   <span>Tạo đề thi trắc nghiệm</span>
@@ -534,7 +534,7 @@ export const DocumentsView: React.FC<DocumentsViewProps> = ({
                   id="submit-upload-doc-btn"
                   type="submit"
                   disabled={uploadLoading}
-                  className="px-4 py-2 bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white text-xs font-semibold rounded-xl shadow-md shadow-orange-100 transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white text-xs font-semibold rounded-xl shadow-md shadow-blue-100 transition-colors flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
                 >
                   {uploadLoading ? (
                     <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>

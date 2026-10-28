@@ -30,14 +30,14 @@ const features = [
   },
   {
     icon: WandSparkles,
-    tint: 'bg-orange-50 text-orange-600',
+    tint: 'bg-blue-50 text-blue-600',
     title: 'Tạo quiz ôn tập',
     description: 'Tạo câu hỏi trắc nghiệm theo tài liệu để tự kiểm tra mức độ hiểu bài.',
   },
 ];
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => (
-  <div className="landing-page min-h-screen overflow-hidden bg-[#fbfbff] text-slate-900">
+  <div className="landing-page min-h-screen overflow-hidden bg-[#f5f7fc] text-slate-900">
     <header className="relative z-10 mx-auto flex h-[82px] max-w-7xl items-center justify-between px-5 sm:px-8">
       <a href="#top" className="flex items-center gap-3" aria-label="AuraStudy trang chủ">
         <img src="/assets/aurastudy-logo.png" alt="" className="h-11 w-11 object-contain" />
@@ -132,7 +132,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onLogin }) => (
                 <p className="mt-1 text-[11px] leading-5 text-slate-500">Giải thích khái niệm trong tài liệu</p>
               </div>
               <div className="rounded-2xl border border-slate-100 bg-white p-4 shadow-sm">
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-orange-50 text-orange-600"><BookOpen className="h-4 w-4" /></div>
+                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-50 text-blue-600"><BookOpen className="h-4 w-4" /></div>
                 <p className="mt-3 text-xs font-bold text-slate-800">Ôn tập nhanh</p>
                 <p className="mt-1 text-[11px] leading-5 text-slate-500">Tạo câu hỏi để nhớ lâu hơn</p>
               </div>
